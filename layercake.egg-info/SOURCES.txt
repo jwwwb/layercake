@@ -1,0 +1,7 @@
+layercake/__init__.py
+layercake/optimizer.py
+layercake.egg-info/PKG-INFO
+layercake.egg-info/SOURCES.txt
+layercake.egg-info/dependency_links.txt
+layercake.egg-info/requires.txt
+layercake.egg-info/top_level.txt
