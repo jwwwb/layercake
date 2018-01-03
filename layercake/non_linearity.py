@@ -1,7 +1,7 @@
 import numpy as np
 import layercake as lc
 
-class NonLinearity:
+class NonLinearity(lc.Layer):
     """
     A nonlinearity to stack on top of NeuronLayers.
     """

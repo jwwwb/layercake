@@ -1,7 +1,7 @@
 import numpy as np
 import layercake as lc
 
-class MultiLayerPerceptron:
+class MultiLayerPerceptron(lc.Layer):
     def __init__(self,
                  input_size,
                  output_size,
@@ -53,4 +53,16 @@ class MultiLayerPerceptron:
     def update(self, learning_rate):
         for layer in self.layers:
             layer.update(learning_rate)
+
+    def get_gradients(self):
+        gradients = []
+        for layer in self.layers:
+            gradients.extend(layer.get_gradients())
+        return gradients
+
+    def get_weights(self):
+        weights = []
+        for layer in self.layers:
+            weights.extend(layer.get_weights())
+        return weights
 

@@ -1,7 +1,7 @@
 import numpy as np
 import layercake as lc
 
-class LossLayer:
+class LossLayer(lc.Layer):
     def __init__(self, loss):
         self.loss = loss
         self.target = None
@@ -30,7 +30,8 @@ class CategoricalLossLayer(LossLayer):
                                                 keepdims=True)
         softmax_flat = softmax.reshape(-1, np.shape(softmax)[-1])
         target_flat = self.target.reshape(-1)
-        loss = np.sum(np.log(softmax_flat[np.arange(len(target_flat)), target_flat]))
+        loss = np.sum(np.log(softmax_flat[np.arange(len(target_flat)),
+                                                    target_flat]))
         self.input_tensor = softmax
         return loss
 

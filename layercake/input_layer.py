@@ -1,7 +1,7 @@
 import numpy as np
 import layercake as lc
 
-class InputLayer:
+class InputLayer(lc.Layer):
     def __init__(self):
         self.value = None
 
