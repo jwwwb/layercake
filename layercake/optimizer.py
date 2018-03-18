@@ -1,5 +1,6 @@
 import numpy as np
 import layercake as lc
+from pprint import pprint
 
 class Optimizer:
     """
@@ -16,6 +17,12 @@ class Optimizer:
         self.gradients.extend(gradients)
 
     def update(self):
+        #  print("weights:")
+        #  pprint(self.weights)
+        #  print()
+        #  print("gradients:")
+        #  pprint(self.gradients)
+        #  print()
         for weight, grad in zip(self.weights, self.gradients):
             #  print('updating', weight, 'by', grad)
             weight[:] -= self.learning_rate * grad

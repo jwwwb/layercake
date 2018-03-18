@@ -1,27 +1,41 @@
 import numpy as np
 import layercake as lc
 
-class LossLayer(lc.Layer):
-    def __init__(self, loss):
-        self.loss = loss
-        self.target = None
-        self.input_tensor = None
+class LossLayer(lc.MultipleInputLayer):
+    def __init__(self):
+        super().__init__()
+        self.input_tensors = []
 
-    def forward(self, input_tensor):
-        assert self.target is not None
-        self.input_tensor = input_tensor
-        return np.sum(np.square(input_tensor - self.target))
+    def __call__(self, targets, inputs):
+        assert targets.output_size == inputs.output_size
+        self.input_tensors.append(None)
+        return super().__call__([targets, inputs])
 
-    def backward(self, gradient_tensor=None):
+    def forward(self, for_input=0):
+        target, input_tensor = super().forward(for_input)
+        self.input_tensors[for_input] = (target, input_tensor)
+        return np.mean(np.square(input_tensor - target), axis=-1)
+
+    def backward(self, gradient_tensor=None, for_input=0):
         assert gradient_tensor is None
-        return 2 * (self.input_tensor - self.target)
+        target, input_tensor = self.input_tensors[for_input]
+        gradient = 2 * (target - input_tensor)
+        #  print("gradient before:", gradient)
+        output_size = self.get_output_size(for_input)
+        #  print("output_size:", output_size)
+        gradient /= output_size
+        #  print("gradient after:", gradient)
+        super().backward((gradient, - gradient), for_input=for_input)
 
-    def update(self, learning_rate):
-        # no trainable parameters here
-        pass
+    def get_output_size(self, for_input=0):
+        return self.input_layers[for_input][0].output_size
 
-    def assign(self, target):
-        self.target = target
+    #  def update(self, learning_rate):
+    #      # no trainable parameters here
+    #      pass
+
+    #  def assign(self, target):
+    #      self.target = target
 
 class CategoricalLossLayer(LossLayer):
     def forward(self, input_tensor):
