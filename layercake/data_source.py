@@ -1,6 +1,12 @@
 import layercake as lc
 import numpy as np
 
+def load_mnist():
+    import cPickle, gzip
+    f = gzip.open('../data/mnist.pkl.gz', 'rb')
+    train_set, valid_set, test_set = cPickle.load(f)
+    f.close()
+    return train_set, valid_set, test_set
 
 def get_len(data_dict):
     lens = np.unique(np.asarray([len(v) for k,v in data_dict.items()]))
@@ -33,7 +39,6 @@ class DataSource:
 
     def shuffle_order(self):
         self.order = np.random.permutation(self.len).reshape(-1, self.batch_size)
-        #  self.order = np.arange(self.len).reshape(-1, self.batch_size)
 
     def __len__(self):
         return self.len // self.batch_size
@@ -44,13 +49,18 @@ class DataSource:
             yield {k: v[o] for k, v in self.data_dict.items()}
 
 
-if __name__ == '__main__':
-    ds = DataSource({'x': np.arange(10), 'y': np.arange(10)}, 2)
-    for d in ds:
-        print(d)
+def tester():
+    t,v,s = load_mnist()
+    print(v[0].shape)
 
-    dd = ds.data_dict
-    a, b = split_data(dd, [.5, .5])
-    print(a)
-    print(b)
+if __name__ == '__main__':
+    tester()
+    #  ds = DataSource({'x': np.arange(10), 'y': np.arange(10)}, 2)
+    #  for d in ds:
+    #      print(d)
+
+    #  dd = ds.data_dict
+    #  a, b = split_data(dd, [.5, .5])
+    #  print(a)
+    #  print(b)
 

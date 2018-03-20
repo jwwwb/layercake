@@ -20,9 +20,9 @@ def train_model(model=None):
 
 def build_keras_model():
     model = keras.models.Sequential()
-    model.add(keras.layers.Dense(16, input_dim=2))
+    model.add(keras.layers.Dense(16, input_dim=2, kernel_initializer='zeros'))
     model.add(keras.layers.Activation('relu'))
-    model.add(keras.layers.Dense(1))
+    model.add(keras.layers.Dense(1, kernel_initializer='zeros'))
     model.compile(optimizer=keras.optimizers.SGD(lr=0.01,
                                                  momentum=0.0,
                                                  decay=0.0,

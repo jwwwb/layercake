@@ -49,10 +49,10 @@ class Sequential:
         self.target_layer.assign(target)
         loss = self.loss()
         pred = self.network()
-        print(loss.shape, observation.shape, target.shape, pred.shape)
-        print("test loss:", loss)
-        print("obs, target, prediction")
-        print(np.hstack([observation, target, pred]))
+        #  print(loss.shape, observation.shape, target.shape, pred.shape)
+        #  print("test loss:", loss)
+        #  print("obs, target, prediction")
+        #  print(np.hstack([observation, target, pred]))
         return loss
 
     def predict_on_batch(self, observation):
@@ -89,7 +89,6 @@ class Sequential:
             self.val_losses.extend(loss)
             loss = np.mean(loss)
             print("epoch {} loss: {}".format(e, loss))
-            print("len_losses:", len(self.val_losses))
             keep_training = e < min_epochs or loss < best_loss * tolerance
             best_loss = loss if best_loss is None else min(loss, best_loss)
 
