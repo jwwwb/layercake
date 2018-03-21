@@ -1,6 +1,9 @@
 import numpy as np
 import layercake as lc
 
+def stats(tensor):
+    print("min:", np.min(tensor), "\tmean:", np.mean(tensor), "\tmax:", np.max(tensor))
+
 
 class Output:
     """
@@ -17,7 +20,10 @@ class Output:
         return self.forward()
 
     def forward(self):
-        return self.layer.forward(self.for_input)
+        ret = self.layer.forward(self.for_input)
+        #  print(self.layer.__class__.__name__, ret.shape)
+        #  stats(ret)
+        return ret
 
     def backward(self, gradient_tensor=None):
         #  print("output gradient:", gradient_tensor)

@@ -1,6 +1,11 @@
 import numpy as np
 import layercake as lc
 
+
+def stats(tensor):
+    print("min:", np.min(tensor), "\tmean:", np.mean(tensor), "\tmax:", np.max(tensor))
+
+
 class InputLayer(lc.Output):
     def __init__(self, shape):
         self.shape = [None, shape] if isinstance(shape, int) else shape
@@ -12,6 +17,8 @@ class InputLayer(lc.Output):
     def forward(self):
         # provides the value assigned to the layer to start off a network
         assert self.value is not None
+        #  print(self.__class__.__name__, self.value.shape)
+        #  stats(self.value)
         return self.value
 
     def backward(self, gradient_tensor):
@@ -29,6 +36,8 @@ class InputLayer(lc.Output):
 
     def assign(self, value):
         assert len(value.shape) == len(self.shape)
-        assert value.shape[-1] == self.shape[-1]
+        if value.shape[-1] != self.shape[-1]:
+            print("value:", value.shape, "self:", self.shape)
+            raise ValueError("Shapes of assignment must match.")
         self.value = value
 

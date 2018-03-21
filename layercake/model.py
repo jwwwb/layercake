@@ -23,7 +23,10 @@ class Sequential:
         self.network = layer(self.network)
 
     def add_loss(self, loss_layer):
-        self.target_layer = lc.InputLayer([None, self.network.output_size])
+        if isinstance(loss_layer, lc.CategoricalLossLayer):
+            self.target_layer = lc.InputLayer([None, 1])
+        else:
+            self.target_layer = lc.InputLayer([None, self.network.output_size])
         self.loss_layer = loss_layer
         self.loss = self.loss_layer(self.target_layer, self.network)
 

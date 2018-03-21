@@ -27,6 +27,14 @@ class Optimizer:
             #  print('updating', weight, 'by', grad)
             weight[:] -= self.learning_rate * grad
 
+
+class L2Optimizer(Optimizer):
+    def update(self):
+        for weight, grad in zip(self.weights, self.gradients):
+            weight[:] -= self.learning_rate * grad
+            weight[:] *= 0.9
+
+
 class MomentumOptimizer(Optimizer):
     """
     Maintains a tensor of the previous update and uses momentum to smooth

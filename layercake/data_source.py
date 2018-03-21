@@ -2,11 +2,12 @@ import layercake as lc
 import numpy as np
 
 def load_mnist():
-    import cPickle, gzip
+    import gzip
+    import pickle
     f = gzip.open('../data/mnist.pkl.gz', 'rb')
-    train_set, valid_set, test_set = cPickle.load(f)
+    sets =[{'X': X, 'y': np.expand_dims(y, -1)} for X, y in pickle.load(f, encoding='latin1')]
     f.close()
-    return train_set, valid_set, test_set
+    return sets
 
 def get_len(data_dict):
     lens = np.unique(np.asarray([len(v) for k,v in data_dict.items()]))
@@ -51,7 +52,7 @@ class DataSource:
 
 def tester():
     t,v,s = load_mnist()
-    print(v[0].shape)
+    print(v)
 
 if __name__ == '__main__':
     tester()

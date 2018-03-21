@@ -23,9 +23,9 @@ class NeuronLayer(lc.Layer):
         else:
             self.input_size = input_size
             limit = np.sqrt(6. / (input_size+self.output_size))
-            #  self.kernel = np.random.uniform(-limit, limit,
-            #                                  input_size * self.output_size)
-            self.kernel = np.zeros(input_size * self.output_size)
+            self.kernel = np.random.uniform(-limit, limit,
+                                            input_size * self.output_size)
+            #  self.kernel = np.zeros(input_size * self.output_size)
             self.kernel_shape = [input_size, self.output_size]
             self.bias = np.zeros(self.output_size)
             self.d_kernel = np.zeros_like(self.kernel)
